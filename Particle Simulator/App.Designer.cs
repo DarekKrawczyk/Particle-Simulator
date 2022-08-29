@@ -30,11 +30,15 @@
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.simulationSettingsPanel = new System.Windows.Forms.Panel();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.AddParticleButton = new System.Windows.Forms.Button();
             this.simulationsListPanel = new System.Windows.Forms.Panel();
             this.simulationsListBox = new System.Windows.Forms.ListBox();
             this.simulationWindow = new System.Windows.Forms.Panel();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.simulationSettingsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.simulationsListPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,12 +46,33 @@
             // 
             this.simulationSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.simulationSettingsPanel.Controls.Add(this.textBox2);
+            this.simulationSettingsPanel.Controls.Add(this.trackBar1);
+            this.simulationSettingsPanel.Controls.Add(this.textBox1);
             this.simulationSettingsPanel.Controls.Add(this.AddParticleButton);
             this.simulationSettingsPanel.Location = new System.Drawing.Point(806, 126);
             this.simulationSettingsPanel.Name = "simulationSettingsPanel";
             this.simulationSettingsPanel.Size = new System.Drawing.Size(198, 414);
             this.simulationSettingsPanel.TabIndex = 0;
             this.simulationSettingsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(33, 177);
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.TabIndex = 2;
+            this.trackBar1.Value = 1;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(37, 131);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 23);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // AddParticleButton
             // 
@@ -105,6 +130,13 @@
             this.simulationWindow.TabIndex = 2;
             this.simulationWindow.Paint += new System.Windows.Forms.PaintEventHandler(this.simulationWindow_Paint);
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(33, 237);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 23);
+            this.textBox2.TabIndex = 3;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -121,6 +153,8 @@
             this.FontChanged += new System.EventHandler(this.App_FontChanged);
             this.Resize += new System.EventHandler(this.App_Resize);
             this.simulationSettingsPanel.ResumeLayout(false);
+            this.simulationSettingsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.simulationsListPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -133,5 +167,8 @@
         private ListBox simulationsListBox;
         private Panel simulationWindow;
         private Button AddParticleButton;
+        private TextBox textBox1;
+        private TrackBar trackBar1;
+        private TextBox textBox2;
     }
 }
