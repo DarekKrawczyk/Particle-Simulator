@@ -14,28 +14,33 @@ namespace Particle_Simulator
 {
     public partial class App : Form
     {
+        #region fields
+
         private Boolean openState = true;
         private Simulation simulation;
         private SFML.Graphics.RenderWindow window;
         private ContextSettings contextSettings;
-        private Stopwatch stopwatch;
-        private TimeSpan deltaTime;
-        private TimeSpan time;
-        private Clock clock;
-        private Time currentTime;
-        private Time lastTime;
-        public float FPS { get; set; }
-
+        private Clock executionClock;
+        private Time extraTime;
+        private List<float> extraTimeList = new List<float>();
+        private const float timeConst = 0.1f;
+        public float FPS { 
+            get => 1/deltaTime.AsSeconds(); 
+        }
         public float simulationSpeed { get; set; }
+        public Time deltaTime { get; set; }
+
+        #endregion fields
 
         public App()
         {
             InitializeComponent();
-            clock = new Clock();
-            stopwatch = new Stopwatch();
+            deltaTime = new Time();
             Visible = true;
+            simulationSpeed = 6;
             simulationWindow.Visible = false;
             contextSettings.AntialiasingLevel = 16;
+            executionClock = new Clock();
             window = new SFML.Graphics.RenderWindow(IntPtr.Zero);
             simulation = new Simulation(ref window, WindowManager.size(simulationWindow), 
                 WindowManager.point(simulationWindow), new SFML.Graphics.Color(163, 165, 168),
@@ -46,17 +51,16 @@ namespace Particle_Simulator
         }
         public void run()
         {
+            executionClock.Restart();
             while (openState == true)
             {
-                //currentTime = clock.Restart().AsSeconds();
-                //FPS = 1 / (currentTime - lastTime);
-                //textBox2.Text = (currentTime - lastTime).ToString();
-                //lastTime = currentTime;
-                lastTime += currentTime;
                 logic();
-                textBox1.Text = FPS.ToString();
                 update();
                 draw();
+                textBox2.Text = deltaTime.AsSeconds().ToString();
+                deltaTime = executionClock.Restart();
+                extraTime += deltaTime;
+                angletext.Text = angletrack.Value.ToString();
             }
         }
 
@@ -68,7 +72,26 @@ namespace Particle_Simulator
 
         public void update()
         {
-           // if(lastTime >= (1/simulationSpeed))
+            float a = 270f;
+            if (extraTime.AsSeconds() >= timeConst / simulationSpeed)
+            {
+
+                foreach(Particle particle in simulation.particles)
+                {
+                    particle.updateParticlePosition(Common.AngleToPosition(angletrack.Value));
+                }
+
+                /*
+                 * Frames per second
+                 */
+                extraTimeList.Add(extraTime.AsSeconds());
+                if(extraTimeList.Count > 10 - trackBar1.Value)
+                {
+                    textBox1.Text = (1 / extraTimeList.Average()).ToString();
+                    extraTimeList.Clear();
+                }
+                extraTime = Time.Zero;
+            }
         }
 
         public void draw()
@@ -78,7 +101,7 @@ namespace Particle_Simulator
                 window.Clear(simulation.backgroudColor);
                 foreach (Particle particle in simulation.particles)
                 {
-                    window.Draw(particle.shape);
+                    window.Draw(particle.getParticleShape());
                 }
                 window.Display();
             } catch(System.Exception ex)
@@ -149,6 +172,11 @@ namespace Particle_Simulator
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             simulationSpeed = trackBar1.Value;
+        }
+
+        private void btnRestartSimulation_Click(object sender, EventArgs e)
+        {
+            simulation.restartSimulation();
         }
     }
 }

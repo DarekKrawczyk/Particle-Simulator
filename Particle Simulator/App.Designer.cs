@@ -30,22 +30,29 @@
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.simulationSettingsPanel = new System.Windows.Forms.Panel();
+            this.btnRestartSimulation = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.AddParticleButton = new System.Windows.Forms.Button();
             this.simulationsListPanel = new System.Windows.Forms.Panel();
             this.simulationsListBox = new System.Windows.Forms.ListBox();
             this.simulationWindow = new System.Windows.Forms.Panel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.angletrack = new System.Windows.Forms.TrackBar();
+            this.angletext = new System.Windows.Forms.TextBox();
             this.simulationSettingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.simulationsListPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.angletrack)).BeginInit();
             this.SuspendLayout();
             // 
             // simulationSettingsPanel
             // 
             this.simulationSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.simulationSettingsPanel.Controls.Add(this.angletext);
+            this.simulationSettingsPanel.Controls.Add(this.angletrack);
+            this.simulationSettingsPanel.Controls.Add(this.btnRestartSimulation);
             this.simulationSettingsPanel.Controls.Add(this.textBox2);
             this.simulationSettingsPanel.Controls.Add(this.trackBar1);
             this.simulationSettingsPanel.Controls.Add(this.textBox1);
@@ -56,14 +63,32 @@
             this.simulationSettingsPanel.TabIndex = 0;
             this.simulationSettingsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // btnRestartSimulation
+            // 
+            this.btnRestartSimulation.Location = new System.Drawing.Point(108, 3);
+            this.btnRestartSimulation.Name = "btnRestartSimulation";
+            this.btnRestartSimulation.Size = new System.Drawing.Size(87, 29);
+            this.btnRestartSimulation.TabIndex = 4;
+            this.btnRestartSimulation.Text = "Restart";
+            this.btnRestartSimulation.UseVisualStyleBackColor = true;
+            this.btnRestartSimulation.Click += new System.EventHandler(this.btnRestartSimulation_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(33, 237);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 23);
+            this.textBox2.TabIndex = 3;
+            // 
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(33, 177);
+            this.trackBar1.Maximum = 11;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(104, 45);
             this.trackBar1.TabIndex = 2;
-            this.trackBar1.Value = 1;
+            this.trackBar1.Value = 6;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // textBox1
@@ -130,12 +155,21 @@
             this.simulationWindow.TabIndex = 2;
             this.simulationWindow.Paint += new System.Windows.Forms.PaintEventHandler(this.simulationWindow_Paint);
             // 
-            // textBox2
+            // angletrack
             // 
-            this.textBox2.Location = new System.Drawing.Point(33, 237);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 23);
-            this.textBox2.TabIndex = 3;
+            this.angletrack.Location = new System.Drawing.Point(33, 311);
+            this.angletrack.Maximum = 360;
+            this.angletrack.Name = "angletrack";
+            this.angletrack.Size = new System.Drawing.Size(104, 45);
+            this.angletrack.TabIndex = 5;
+            this.angletrack.Value = 6;
+            // 
+            // angletext
+            // 
+            this.angletext.Location = new System.Drawing.Point(37, 362);
+            this.angletext.Name = "angletext";
+            this.angletext.Size = new System.Drawing.Size(100, 23);
+            this.angletext.TabIndex = 6;
             // 
             // App
             // 
@@ -156,6 +190,7 @@
             this.simulationSettingsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.simulationsListPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.angletrack)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -170,5 +205,8 @@
         private TextBox textBox1;
         private TrackBar trackBar1;
         private TextBox textBox2;
+        private Button btnRestartSimulation;
+        private TextBox angletext;
+        private TrackBar angletrack;
     }
 }

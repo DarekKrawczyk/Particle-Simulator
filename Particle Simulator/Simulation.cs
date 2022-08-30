@@ -12,18 +12,18 @@ namespace Particle_Simulator
 {
     public class Simulation
     {
-        public List<Particle> particles { get; }
+        public List<Particle> particles { get; set; }
         public DrawingSurface surface { get; }
-        public RenderWindow window { get; }
+        public RenderWindow? window { get; }
         private Particle particle { get; }
         public SFML.Graphics.Color backgroudColor { get; }
         public Simulation(ref RenderWindow window, System.Drawing.Size size, System.Drawing.Point location, SFML.Graphics.Color color, ContextSettings settings)
         {
             particles = new List<Particle>(){
-                new Particle(150, 1500, new SFML.System.Vector2f(100, 74), SFML.Graphics.Color.Red),
-                new Particle(100, 1500, new SFML.System.Vector2f(514, 422), SFML.Graphics.Color.Cyan),
-                new Particle(200, 1500, new SFML.System.Vector2f(125, 222), SFML.Graphics.Color.Yellow),
-                new Particle(300, 1500, new SFML.System.Vector2f(265, 333), SFML.Graphics.Color.Green),
+                new Particle(20, 1500, new SFML.System.Vector2f(100, 74), SFML.Graphics.Color.Red),
+                new Particle(20, 1500, new SFML.System.Vector2f(514, 422), SFML.Graphics.Color.Cyan),
+                new Particle(20, 1500, new SFML.System.Vector2f(125, 222), SFML.Graphics.Color.Yellow),
+                new Particle(20, 1500, new SFML.System.Vector2f(265, 333), SFML.Graphics.Color.Green),
                 new Particle(20, 1500, new SFML.System.Vector2f(85, 182), SFML.Graphics.Color.Blue)
             };
 
@@ -35,16 +35,16 @@ namespace Particle_Simulator
             window = new RenderWindow(surface.Handle, settings);
         }
 
-        public SFML.Graphics.Drawable getParticle() => particle.shape;
-
-        //public SFML.Graphics.Drawable getParticles()
-        //{
-        //    return particles
-        //}
-
-        public void addParticle()
+        public void restartSimulation()
         {
-            
+            if (particles.Count != 0) particles.Clear();
+            particles = new List<Particle>(){
+                new Particle(20, 1500, new SFML.System.Vector2f(100, 74), SFML.Graphics.Color.Red),
+                new Particle(20, 1500, new SFML.System.Vector2f(514, 422), SFML.Graphics.Color.Cyan),
+                new Particle(20, 1500, new SFML.System.Vector2f(125, 222), SFML.Graphics.Color.Yellow),
+                new Particle(20, 1500, new SFML.System.Vector2f(265, 333), SFML.Graphics.Color.Green),
+                new Particle(20, 1500, new SFML.System.Vector2f(85, 182), SFML.Graphics.Color.Blue)
+            };
         }
     }
 }
