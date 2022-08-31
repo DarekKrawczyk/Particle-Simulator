@@ -12,8 +12,20 @@ namespace Particle_Simulator
 {
     public class Particle
     {
+        #region fields
         private CircleShape shape;
+        #endregion fields
+
+        #region properties
         public float angle { get; set; }
+        public int flag { get; set; }
+        public Vector3f mass { get; set; }
+        public Vector3f force { get; set; }
+        public Vector3f velocity { get; set; }
+        public Vector3f dr { get; set; }
+        public Vector3f dv { get; set; }
+        #endregion properties
+
         public Particle(float radius, uint pointCount, Vector2f position, SFML.Graphics.Color color, float angle = 5)
         {
             shape = new CircleShape(radius, pointCount);
@@ -45,5 +57,6 @@ namespace Particle_Simulator
         {
             return shape;
         }
+
     }
 }
