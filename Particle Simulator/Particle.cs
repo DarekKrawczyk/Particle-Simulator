@@ -19,19 +19,22 @@ namespace Particle_Simulator
         #region properties
         public float angle { get; set; }
         public int flag { get; set; }
-        public Vector3f mass { get; set; }
+        public float mass { get; set; }
+        public Vector3f position { get; set; }
         public Vector3f force { get; set; }
         public Vector3f velocity { get; set; }
         public Vector3f dr { get; set; }
         public Vector3f dv { get; set; }
         #endregion properties
 
-        public Particle(float radius, uint pointCount, Vector2f position, SFML.Graphics.Color color, float angle = 5)
+        public Particle(float radius, uint pointCount, Vector3f position, SFML.Graphics.Color color, float mass, Vector3f velocity)
         {
             shape = new CircleShape(radius, pointCount);
-            shape.Position = position;
+            this.position = position;
             shape.FillColor = color;
-            angle = 20;
+            //angle = 20;
+            this.velocity = velocity;
+            this.mass = mass;
         }
         public Particle(CircleShape shape)
         {
@@ -48,15 +51,25 @@ namespace Particle_Simulator
             shape.Position = new Vector2f(position.X, position.Y);
         }
 
-        public void updateParticlePosition(Vector2f position)
+        public void updateParticlePosition()
         {
-            shape.Position += position;
+            shape.Position = new Vector2f(position.X, position.Y);
         }
 
         public CircleShape getParticleShape()
         {
             return shape;
         }
-
+        public void CalculateEuler(float dt)
+        {
+            dv = Common.Euler_w(Common.MultiplyVector3fByScalar(force, (1 / mass)), dt);
+            velocity = velocity + dv;
+            dr = Common.MultiplyVector3fByScalar(velocity, dt);
+            position = position + dr;
+        }
+        public void CalculateForce()
+        {
+            force = Common.MultiplyVector3fByScalar(Common.GravityForce, mass);
+        }
     }
 }

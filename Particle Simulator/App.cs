@@ -37,7 +37,7 @@ namespace Particle_Simulator
             InitializeComponent();
             deltaTime = new Time();
             Visible = true;
-            simulationSpeed = 6;
+            simulationSpeed = 60;
             simulationWindow.Visible = false;
             contextSettings.AntialiasingLevel = 16;
             executionClock = new Clock();
@@ -73,12 +73,19 @@ namespace Particle_Simulator
         public void update()
         {
             float a = 270f;
-            if (extraTime.AsSeconds() >= timeConst / simulationSpeed)
+            if (extraTime.AsSeconds() >= 1 / simulationSpeed)
             {
 
                 foreach(Particle particle in simulation.particles)
                 {
-                    particle.updateParticlePosition(Common.AngleToPosition(angletrack.Value));
+                    particle.CalculateForce();
+                    //particle.updateParticlePosition(Common.AngleToPosition(angletrack.Value));
+                    particle.CalculateEuler(20*deltaTime.AsSeconds());
+                    particle.updateParticlePosition();
+                    textBox3.Text = $"force {simulation.particles[0].force.X}||{simulation.particles[0].force.Y}";
+                    textBox4.Text = $"position {simulation.particles[0].position.X}||{simulation.particles[0].position.Y}";
+                    textBox5.Text = $"velocity {simulation.particles[0].velocity.X}||{simulation.particles[0].velocity.Y}";
+                    textBox6.Text = $"shape position {simulation.particles[0].getParticleShape().Position.X}||{simulation.particles[0].getParticleShape().Position.Y}";
                 }
 
                 /*
@@ -177,6 +184,11 @@ namespace Particle_Simulator
         private void btnRestartSimulation_Click(object sender, EventArgs e)
         {
             simulation.restartSimulation();
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
