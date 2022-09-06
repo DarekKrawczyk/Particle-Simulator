@@ -72,15 +72,14 @@ namespace Particle_Simulator
 
         public void update()
         {
-            float a = 270f;
-            if (extraTime.AsSeconds() >= 1 / simulationSpeed)
+            if (extraTime.AsSeconds() >= 0.0016)
             {
 
                 foreach(Particle particle in simulation.particles)
                 {
                     particle.CalculateForce();
                     //particle.updateParticlePosition(Common.AngleToPosition(angletrack.Value));
-                    particle.CalculateEuler(20*deltaTime.AsSeconds());
+                    particle.CalculateEuler(simulationSpeed*extraTime.AsSeconds());
                     particle.updateParticlePosition();
                     textBox3.Text = $"force {simulation.particles[0].force.X}||{simulation.particles[0].force.Y}";
                     textBox4.Text = $"position {simulation.particles[0].position.X}||{simulation.particles[0].position.Y}";

@@ -38,18 +38,23 @@ namespace Particle_Simulator
 
         public void generateParticles()
         {
-            var rand = new Random(101);
+            int range = 5;
+            var rand = new Random();
             //if(particles.Count > 0) particles.Clear();
-            for (int i=0; i<120; i++)
+            for (int i=0; i<100; i++)
             {
-                float vx = rand.Next(1, 10);
-                float vy = rand.Next(1, 10);
-                particles.Add(new Particle(2, 1500, new SFML.System.Vector3f(250, 250, 0), SFML.Graphics.Color.Green, -10f, new Vector3f(vx, vy, 0)));
+                float vx = rand.Next(-2*range, 4*range);
+                float vy = rand.Next(-3*range, 7*range);
+                particles.Add(new Particle(2, 1500, new SFML.System.Vector3f(250, 250, 0), SFML.Graphics.Color.Green, 10f, new Vector3f(vx, vy, 0)));
             }
         }
 
         public void restartSimulation()
         {
+            if (particles.Count > 0)
+            {
+                particles.Clear();
+            }
             generateParticles();
             //if (particles.Count != 0) particles.Clear();
             //particles = new List<Particle>(){

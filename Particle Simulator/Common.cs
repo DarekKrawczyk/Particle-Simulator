@@ -14,7 +14,7 @@ namespace Particle_Simulator
     {
         public static Vector3f GravityForce
         {
-            get => new Vector3f(0, -1, 0);
+            get => new Vector3f(0, 9.8f, 0);
         }
         public static Vector2f AngleToPosition(float angle)
         {
@@ -51,7 +51,7 @@ namespace Particle_Simulator
         }
         public static Vector3f MultiplyVector3fByScalar(Vector3f x, float y)
         {
-            return new Vector3f(x.X * y, x.Y * y, x.Z * y);
+            return new Vector3f(x.X * y, -(x.Y * y), x.Z * y);
         }
         public static float LengthVector3f(Vector3f x)
         {
