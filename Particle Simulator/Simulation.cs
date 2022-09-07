@@ -17,6 +17,7 @@ namespace Particle_Simulator
         public RenderWindow? window { get; }
         private Particle particle { get; }
         public SFML.Graphics.Color backgroudColor { get; }
+        public Border border { get; set; }
         public Simulation(ref RenderWindow window, System.Drawing.Size size, System.Drawing.Point location, SFML.Graphics.Color color, ContextSettings settings)
         {
             //particles = new List<Particle>(){
@@ -26,6 +27,7 @@ namespace Particle_Simulator
             //    new Particle(20, 1500, new SFML.System.Vector2f(265, 333), SFML.Graphics.Color.Green),
             //    new Particle(20, 1500, new SFML.System.Vector2f(85, 182), SFML.Graphics.Color.Blue)
             //};
+            border = new Border(size);
             particles = new List<Particle>();
             generateParticles();
             //particle = new Particle(50, 1500, new SFML.System.Vector2f(100, 100), new SFML.Graphics.Color(64, 135, 67));
@@ -43,8 +45,9 @@ namespace Particle_Simulator
             //if(particles.Count > 0) particles.Clear();
             for (int i=0; i<100; i++)
             {
-                float vx = rand.Next(-2*range, 4*range);
-                float vy = rand.Next(-3*range, 7*range);
+                //range *= (step*i);
+                float vx = rand.Next(-i, i);
+                float vy = rand.Next(-i, i);
                 particles.Add(new Particle(2, 1500, new SFML.System.Vector3f(250, 250, 0), SFML.Graphics.Color.Green, 10f, new Vector3f(vx, vy, 0)));
             }
         }
@@ -56,14 +59,6 @@ namespace Particle_Simulator
                 particles.Clear();
             }
             generateParticles();
-            //if (particles.Count != 0) particles.Clear();
-            //particles = new List<Particle>(){
-            //    new Particle(20, 1500, new SFML.System.Vector2f(100, 74), SFML.Graphics.Color.Red),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(514, 422), SFML.Graphics.Color.Cyan),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(125, 222), SFML.Graphics.Color.Yellow),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(265, 333), SFML.Graphics.Color.Green),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(85, 182), SFML.Graphics.Color.Blue)
-            //};
         }
     }
 }

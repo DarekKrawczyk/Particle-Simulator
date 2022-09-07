@@ -37,7 +37,7 @@ namespace Particle_Simulator
             InitializeComponent();
             deltaTime = new Time();
             Visible = true;
-            simulationSpeed = 60;
+            simulationSpeed = 1;
             simulationWindow.Visible = false;
             contextSettings.AntialiasingLevel = 16;
             executionClock = new Clock();
@@ -72,9 +72,8 @@ namespace Particle_Simulator
 
         public void update()
         {
-            if (extraTime.AsSeconds() >= 0.0016)
+            if (simulationSpeed*extraTime.AsSeconds() >= 0.0016)
             {
-
                 foreach(Particle particle in simulation.particles)
                 {
                     particle.CalculateForce();
@@ -105,6 +104,10 @@ namespace Particle_Simulator
             try
             {
                 window.Clear(simulation.backgroudColor);
+                foreach (RectangleShape shape in simulation.border.walls)
+                {
+                    window.Draw(shape);
+                }
                 foreach (Particle particle in simulation.particles)
                 {
                     window.Draw(particle.getParticleShape());
