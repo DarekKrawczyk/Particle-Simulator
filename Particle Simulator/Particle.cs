@@ -13,10 +13,14 @@ namespace Particle_Simulator
     public class Particle
     {
         #region fields
-        private CircleShape shape;
+        private CircleShape _shape;
         #endregion fields
 
         #region properties
+        public CircleShape Shape
+        {
+            get => _shape;
+        }
         public float angle { get; set; }
         public int flag { get; set; }
         public float mass { get; set; }
@@ -29,36 +33,31 @@ namespace Particle_Simulator
 
         public Particle(float radius, uint pointCount, Vector3f position, SFML.Graphics.Color color, float mass, Vector3f velocity)
         {
-            shape = new CircleShape(radius, pointCount);
+            _shape = new CircleShape(radius, pointCount);
             this.position = position;
-            shape.FillColor = color;
+            _shape.FillColor = color;
             //angle = 20;
             this.velocity = velocity;
             this.mass = mass;
         }
         public Particle(CircleShape shape)
         {
-            this.shape = new CircleShape(shape);
+            this._shape = new CircleShape(shape);
         }
 
         public Vector2f getParticlePosition()
         {
-            return shape.Position;
+            return _shape.Position;
         }
 
         public void setParticlePosition(Vector2f position)
         {
-            shape.Position = new Vector2f(position.X, position.Y);
+            _shape.Position = new Vector2f(position.X, position.Y);
         }
 
         public void updateParticlePosition()
         {
-            shape.Position = new Vector2f(position.X, position.Y);
-        }
-
-        public CircleShape getParticleShape()
-        {
-            return shape;
+            _shape.Position = new Vector2f(position.X, position.Y);
         }
         public void CalculateEuler(float dt)
         {

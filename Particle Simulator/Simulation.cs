@@ -12,43 +12,51 @@ namespace Particle_Simulator
 {
     public class Simulation
     {
+        #region enums
+        public enum State
+        {
+            Runing,
+            Closed
+        }
+        #endregion
+
+        #region fields
+        #endregion
+
+        #region properties
+        public State simulationState { get; set; }
+        public float simulationSpeed { get; set; }
         public List<Particle> particles { get; set; }
         public DrawingSurface surface { get; }
-        public RenderWindow? window { get; }
-        private Particle particle { get; }
         public SFML.Graphics.Color backgroudColor { get; }
         public Border border { get; set; }
+        #endregion
+
+        #region const/dest
         public Simulation(ref RenderWindow window, System.Drawing.Size size, System.Drawing.Point location, SFML.Graphics.Color color, ContextSettings settings)
         {
-            //particles = new List<Particle>(){
-            //    new Particle(20, 1500, new SFML.System.Vector2f(100, 74), SFML.Graphics.Color.Red, 10f, new Vector3f()),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(514, 422), SFML.Graphics.Color.Cyan),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(125, 222), SFML.Graphics.Color.Yellow),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(265, 333), SFML.Graphics.Color.Green),
-            //    new Particle(20, 1500, new SFML.System.Vector2f(85, 182), SFML.Graphics.Color.Blue)
-            //};
+            simulationState = State.Runing;
+            simulationSpeed = 1;
             border = new Border(size);
             particles = new List<Particle>();
             generateParticles();
-            //particle = new Particle(50, 1500, new SFML.System.Vector2f(100, 100), new SFML.Graphics.Color(64, 135, 67));
             surface = new DrawingSurface();
             surface.Size = size;
             surface.Location = location;
             backgroudColor = color;
             window = new RenderWindow(surface.Handle, settings);
         }
+        #endregion
 
+        #region methods
         public void generateParticles()
         {
-            int range = 5;
-            var rand = new Random();
-            //if(particles.Count > 0) particles.Clear();
-            for (int i=0; i<100; i++)
+            Random rand = new Random();
+            for (int i = 0; i < 100; i++)
             {
-                //range *= (step*i);
-                float vx = rand.Next(-i, i);
-                float vy = rand.Next(-i, i);
-                particles.Add(new Particle(2, 1500, new SFML.System.Vector3f(250, 250, 0), SFML.Graphics.Color.Green, 10f, new Vector3f(vx, vy, 0)));
+                int velocityX = rand.Next(-i, i);
+                int velocityY = rand.Next(-i, i);
+                particles.Add(new Particle(2, 1500, new SFML.System.Vector3f(250, 250, 0), SFML.Graphics.Color.Green, 10f, new Vector3f(velocityX, velocityY, 0)));
             }
         }
 
@@ -60,5 +68,73 @@ namespace Particle_Simulator
             }
             generateParticles();
         }
+
+        public void Logic(ref RenderWindow window)
+        {
+            window.DispatchEvents();
+        }
+        public Time Update(Time timeElapsed)
+        {
+            if (simulationSpeed * timeElapsed.AsSeconds() >= 0.0016)
+            {
+                foreach (Particle particle in particles)
+                {
+                    particle.CalculateForce();
+                    //particle.updateParticlePosition(Common.AngleToPosition(angletrack.Value));
+                    particle.CalculateEuler(simulationSpeed * timeElapsed.AsSeconds());
+                    particle.updateParticlePosition();
+                    foreach(Wall wall in border.walls)
+                    {
+                        if (particle.Shape.GetGlobalBounds().Intersects(wall.Shape.GetGlobalBounds()))
+                        {
+                            if (wall.WallSide == Wall.Side.Top)
+                            {
+                                particle.velocity = new Vector3f(particle.velocity.X,-particle.velocity.Y, 0);
+                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Yellow;
+                            }
+                            if (wall.WallSide == Wall.Side.Bottom)
+                            {
+                                particle.velocity = new Vector3f(particle.velocity.X, -particle.velocity.Y, 0);
+                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Red;
+                            }
+                            if (wall.WallSide == Wall.Side.Left)
+                            {
+                                particle.velocity = new Vector3f(-particle.velocity.X, particle.velocity.Y, 0);
+                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Black;
+                            }
+                            if (wall.WallSide == Wall.Side.Right)
+                            {
+                                particle.velocity = new Vector3f(-particle.velocity.X, particle.velocity.Y, 0);
+                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Magenta;
+                            }
+                            //particle.velocity = new Vector3f(-particle.velocity.X, -particle.velocity.Y,0);
+                        }
+                    }
+                }
+
+
+
+
+                return Time.Zero;
+            }
+            else
+            {
+                return timeElapsed;
+            }
+        }
+        public void Draw(ref RenderWindow window)
+        {
+            window.Clear(backgroudColor);
+            foreach (Wall wall in border.walls)
+            {
+                window.Draw(wall.Shape);
+            }
+            foreach (Particle particle in particles)
+            {
+                window.Draw(particle.Shape);
+            }
+            window.Display();
+        }
+        #endregion
     }
 }

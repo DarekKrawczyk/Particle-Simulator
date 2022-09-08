@@ -15,29 +15,24 @@ namespace Particle_Simulator
     public partial class App : Form
     {
         #region fields
-
         private Boolean openState = true;
         private Simulation simulation;
         private SFML.Graphics.RenderWindow window;
         private ContextSettings contextSettings;
         private Clock executionClock;
         private Time extraTime;
-        private List<float> extraTimeList = new List<float>();
-        private const float timeConst = 0.1f;
-        public float FPS { 
-            get => 1/deltaTime.AsSeconds(); 
-        }
-        public float simulationSpeed { get; set; }
-        public Time deltaTime { get; set; }
+        #endregion
 
-        #endregion fields
+        #region properties
+        public float FPS { get => 1/deltaTime.AsSeconds(); }
+        public Time deltaTime { get; set; }
+        #endregion
 
         public App()
         {
             InitializeComponent();
             deltaTime = new Time();
             Visible = true;
-            simulationSpeed = 1;
             simulationWindow.Visible = false;
             contextSettings.AntialiasingLevel = 16;
             executionClock = new Clock();
@@ -54,68 +49,23 @@ namespace Particle_Simulator
             executionClock.Restart();
             while (openState == true)
             {
-                logic();
-                update();
-                draw();
+                textBox1.Text = $"{FPS}";
+                textBox3.Text = $"force {simulation.particles[0].force.X}||{simulation.particles[0].force.Y}";
+                textBox4.Text = $"position {simulation.particles[0].position.X}||{simulation.particles[0].position.Y}";
+                textBox5.Text = $"velocity {simulation.particles[0].velocity.X}||{simulation.particles[0].velocity.Y}";
+                textBox6.Text = $"shape position {simulation.particles[0].Shape.Position.X}||{simulation.particles[0].Shape.Position.Y}";
+
+
+                System.Windows.Forms.Application.DoEvents();
+                simulation.Logic(ref window);
+                extraTime = simulation.Update(extraTime);
+                simulation.Draw(ref window);
+
+
                 textBox2.Text = deltaTime.AsSeconds().ToString();
                 deltaTime = executionClock.Restart();
                 extraTime += deltaTime;
                 angletext.Text = angletrack.Value.ToString();
-            }
-        }
-
-        public void logic()
-        {
-            System.Windows.Forms.Application.DoEvents();
-            window.DispatchEvents();
-        }
-
-        public void update()
-        {
-            if (simulationSpeed*extraTime.AsSeconds() >= 0.0016)
-            {
-                foreach(Particle particle in simulation.particles)
-                {
-                    particle.CalculateForce();
-                    //particle.updateParticlePosition(Common.AngleToPosition(angletrack.Value));
-                    particle.CalculateEuler(simulationSpeed*extraTime.AsSeconds());
-                    particle.updateParticlePosition();
-                    textBox3.Text = $"force {simulation.particles[0].force.X}||{simulation.particles[0].force.Y}";
-                    textBox4.Text = $"position {simulation.particles[0].position.X}||{simulation.particles[0].position.Y}";
-                    textBox5.Text = $"velocity {simulation.particles[0].velocity.X}||{simulation.particles[0].velocity.Y}";
-                    textBox6.Text = $"shape position {simulation.particles[0].getParticleShape().Position.X}||{simulation.particles[0].getParticleShape().Position.Y}";
-                }
-
-                /*
-                 * Frames per second
-                 */
-                extraTimeList.Add(extraTime.AsSeconds());
-                if(extraTimeList.Count > 10 - trackBar1.Value)
-                {
-                    textBox1.Text = (1 / extraTimeList.Average()).ToString();
-                    extraTimeList.Clear();
-                }
-                extraTime = Time.Zero;
-            }
-        }
-
-        public void draw()
-        {
-            try
-            {
-                window.Clear(simulation.backgroudColor);
-                foreach (RectangleShape shape in simulation.border.walls)
-                {
-                    window.Draw(shape);
-                }
-                foreach (Particle particle in simulation.particles)
-                {
-                    window.Draw(particle.getParticleShape());
-                }
-                window.Display();
-            } catch(System.Exception ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
 
@@ -180,7 +130,7 @@ namespace Particle_Simulator
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            simulationSpeed = trackBar1.Value;
+            simulation.simulationSpeed = trackBar1.Value;
         }
 
         private void btnRestartSimulation_Click(object sender, EventArgs e)
