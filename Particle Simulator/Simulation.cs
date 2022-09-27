@@ -10,7 +10,7 @@ using SFML.Audio;
 
 namespace Particle_Simulator
 {
-    public class Simulation
+    public class Simulation : ISimulation
     {
         #region enums
         public enum State
@@ -52,11 +52,11 @@ namespace Particle_Simulator
         public void generateParticles()
         {
             Random rand = new Random();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 69; i++)
             {
                 int velocityX = rand.Next(-i, i);
                 int velocityY = rand.Next(-i, i);
-                particles.Add(new Particle(2, 1500, new SFML.System.Vector3f(250, 250, 0), SFML.Graphics.Color.Green, 10f, new Vector3f(velocityX, velocityY, 0)));
+                particles.Add(new Particle(2, 1500, new SFML.System.Vector3f(250, 250, 0), SFML.Graphics.Color.White, 10f, new Vector3f(velocityX, velocityY, 0)));
             }
         }
 
@@ -83,30 +83,37 @@ namespace Particle_Simulator
                     //particle.updateParticlePosition(Common.AngleToPosition(angletrack.Value));
                     particle.CalculateEuler(simulationSpeed * timeElapsed.AsSeconds());
                     particle.updateParticlePosition();
-                    foreach(Wall wall in border.walls)
+                    foreach (Wall wall in border.walls)
                     {
                         if (particle.Shape.GetGlobalBounds().Intersects(wall.Shape.GetGlobalBounds()))
                         {
                             if (wall.WallSide == Wall.Side.Top)
                             {
-                                particle.velocity = new Vector3f(particle.velocity.X,-particle.velocity.Y, 0);
-                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Yellow;
+                                particle.velocity = new Vector3f(particle.velocity.X, -particle.velocity.Y, 0);
+                                //particle.Shape.FillColor = SFML.Graphics.Color.Yellow;
                             }
                             if (wall.WallSide == Wall.Side.Bottom)
                             {
                                 particle.velocity = new Vector3f(particle.velocity.X, -particle.velocity.Y, 0);
-                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Red;
+                                //particle.Shape.FillColor = SFML.Graphics.Color.Red;
                             }
                             if (wall.WallSide == Wall.Side.Left)
                             {
                                 particle.velocity = new Vector3f(-particle.velocity.X, particle.velocity.Y, 0);
-                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Black;
+                                //particle.Shape.FillColor = SFML.Graphics.Color.Black;
                             }
                             if (wall.WallSide == Wall.Side.Right)
                             {
                                 particle.velocity = new Vector3f(-particle.velocity.X, particle.velocity.Y, 0);
-                                //particle.getParticleShape().FillColor = SFML.Graphics.Color.Magenta;
+                                //particle.Shape.FillColor = SFML.Graphics.Color.Magenta;
                             }
+                            Random random = new Random();
+                            int a = random.Next(0, 255);
+                            int b = random.Next(0, 255);
+                            int c = random.Next(0, 255);
+                            int d = random.Next(0, 255);
+
+                            particle.Shape.FillColor = new SFML.Graphics.Color((byte)a, (byte)b, (byte)c);
                             //particle.velocity = new Vector3f(-particle.velocity.X, -particle.velocity.Y,0);
                         }
                     }
@@ -124,7 +131,7 @@ namespace Particle_Simulator
         }
         public void Draw(ref RenderWindow window)
         {
-            window.Clear(backgroudColor);
+            window.Clear(SFML.Graphics.Color.Black);
             foreach (Wall wall in border.walls)
             {
                 window.Draw(wall.Shape);

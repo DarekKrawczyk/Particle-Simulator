@@ -1,19 +1,22 @@
+using Autofac;
+
 namespace Particle_Simulator
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            App app = new App();
-            //.Windows.Forms.Application.Run(app);
-            app.Close();
+            IContainer container = ContainerConfig.Configure();
+            using (ILifetimeScope scope = container.BeginLifetimeScope())
+            {
+                IApp app = scope.Resolve<IApp>();
+                app.run();
+            }
+            //App app = new App();
+            ////.Windows.Forms.Application.Run(app);
+            //app.Close();
         }
     }
 }

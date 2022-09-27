@@ -12,19 +12,19 @@ using System.Threading;
 
 namespace Particle_Simulator
 {
-    public partial class App : Form
+    public partial class App : Form, IApp
     {
         #region fields
         private Boolean openState = true;
         private Simulation simulation;
-        private SFML.Graphics.RenderWindow window;
+        private RenderWindow window;
         private ContextSettings contextSettings;
         private Clock executionClock;
         private Time extraTime;
         #endregion
 
         #region properties
-        public float FPS { get => 1/deltaTime.AsSeconds(); }
+        public float FPS { get => 1 / deltaTime.AsSeconds(); }
         public Time deltaTime { get; set; }
         #endregion
 
@@ -36,13 +36,13 @@ namespace Particle_Simulator
             simulationWindow.Visible = false;
             contextSettings.AntialiasingLevel = 16;
             executionClock = new Clock();
-            window = new SFML.Graphics.RenderWindow(IntPtr.Zero);
-            simulation = new Simulation(ref window, WindowManager.size(simulationWindow), 
+            window = new RenderWindow(IntPtr.Zero);
+            simulation = new Simulation(ref window, WindowManager.size(simulationWindow),
                 WindowManager.point(simulationWindow), new SFML.Graphics.Color(163, 165, 168),
-                contextSettings);            
+                contextSettings);
             this.Controls.Add(simulation.surface);
 
-            run();        
+            run();
         }
         public void run()
         {
@@ -55,7 +55,7 @@ namespace Particle_Simulator
                 textBox5.Text = $"velocity {simulation.particles[0].velocity.X}||{simulation.particles[0].velocity.Y}";
                 textBox6.Text = $"shape position {simulation.particles[0].Shape.Position.X}||{simulation.particles[0].Shape.Position.Y}";
 
-
+                //TODO - Je¿eli jakiœ event jest odpalony to pausuje dzia³anie symulacji, bo s¹ b³êdy typu przy ruszaniu okienkiem cz¹steczki znikaj¹
                 System.Windows.Forms.Application.DoEvents();
                 simulation.Logic(ref window);
                 extraTime = simulation.Update(extraTime);
@@ -116,9 +116,10 @@ namespace Particle_Simulator
 
         private void App_Resize(object sender, EventArgs e)
         {
-            if(this.WindowState == FormWindowState.Maximized ||
+            if (this.WindowState == FormWindowState.Maximized ||
                 this.WindowState == FormWindowState.Minimized ||
-                this.WindowState == FormWindowState.Normal) {
+                this.WindowState == FormWindowState.Normal)
+            {
                 WindowManager.windowResize(ref simulation, simulationWindow);
             }
         }
