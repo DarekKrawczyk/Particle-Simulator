@@ -10,6 +10,7 @@ using SFML.Audio;
 
 namespace Particle_Simulator
 {
+    // TODO: refactor code.
     public class Simulation : ISimulation
     {
         #region enums
