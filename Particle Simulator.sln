@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Particle Simulator", "Particle Simulator\Particle Simulator.csproj", "{23EC02E6-1191-43FC-9844-C676CFAC49A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Particle Simulator", "Particle Simulator\Particle Simulator.csproj", "{23EC02E6-1191-43FC-9844-C676CFAC49A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationTypes", "SimulationTypes\SimulationTypes.csproj", "{9485B598-EBBF-4940-804B-9019C7D2939C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationTests", "SimulationTests\SimulationTests.csproj", "{8C01C33C-0023-4823-9809-781151F2D844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{23EC02E6-1191-43FC-9844-C676CFAC49A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23EC02E6-1191-43FC-9844-C676CFAC49A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23EC02E6-1191-43FC-9844-C676CFAC49A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9485B598-EBBF-4940-804B-9019C7D2939C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9485B598-EBBF-4940-804B-9019C7D2939C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9485B598-EBBF-4940-804B-9019C7D2939C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9485B598-EBBF-4940-804B-9019C7D2939C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C01C33C-0023-4823-9809-781151F2D844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C01C33C-0023-4823-9809-781151F2D844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C01C33C-0023-4823-9809-781151F2D844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C01C33C-0023-4823-9809-781151F2D844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
